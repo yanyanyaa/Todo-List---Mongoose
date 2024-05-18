@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -16,11 +17,13 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
-
 const PORT = process.env.PORT
 
+app.engine('hbs', exphbs({ defaultLayouts: 'main', extname: '.hbs'}))
+app.set('view engine', 'hbs')
+
 app.get('/', (req,res) => {
-  res.send('Hello world')
+  res.render('index')
 })
 
 app.listen(PORT, () => {
